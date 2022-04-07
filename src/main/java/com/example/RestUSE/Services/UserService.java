@@ -1,10 +1,9 @@
 package com.example.RestUSE.Services;
 
 import com.example.RestUSE.Entity.User;
-import com.example.RestUSE.Repositories.IUSERepository;
-import com.example.RestUSE.RestUseApplication;
+import com.example.RestUSE.Repositories.Interfaces.IUSEUserRepository;
+import com.example.RestUSE.Services.Interfaces.IUSEUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,11 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements IUSEService{
-    IUSERepository userRepository;
+public class UserService implements IUSEUserService {
+    IUSEUserRepository userRepository;
 
     @Autowired
-    public void setInjectedBean(IUSERepository userRepository) {
+    public void setInjectedBean(IUSEUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
