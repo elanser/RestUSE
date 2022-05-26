@@ -1,10 +1,13 @@
 package com.example.RestUSE.Services.Interfaces;
 
-import com.example.RestUSE.Entity.User;
+import com.example.RestUSE.Entity.TUser;
 import java.util.List;
 
 public interface IUSEUserService {
-    User getUserByLogin(String login);
-    User getUser();
-    List<User> getUsers();
+    TUser getUserByLogin(String login);
+    TUser getUserById(Long iD);
+    List<TUser> getUsers();
+    Boolean isUser(String login);
+    TUser getUserByLoginPassword(String login, String password);
+
 }

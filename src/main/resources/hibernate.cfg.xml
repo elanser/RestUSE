@@ -26,6 +26,7 @@
         <!-- Annotated entity classes -->
         <mapping class="com.example.RestUSE.Entity.TSection" />
         <mapping class="com.example.RestUSE.Entity.TSubject" />
+        <mapping class="com.example.RestUSE.Entity.TUser" />
 
 
     </session-factory>

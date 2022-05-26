@@ -1,15 +1,16 @@
 package com.example.RestUSE.Controllers;
 
-import com.example.RestUSE.Entity.User;
+import com.example.RestUSE.Entity.TUser;
 import com.example.RestUSE.Services.Interfaces.IUSEUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
+@RequestMapping("/users")
 public class UserController {
     IUSEUserService userService;
 
@@ -18,19 +19,41 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping("/")
-    public String helloWorld() {
-        return "Справочник ЕГЭ по Python";
+//    @RequestMapping(value="/invitefriends/updateFBRequest.json", method=RequestMethod.POST)
+//    public void updateFBRequest(
+//            HttpServletRequest request,
+//            @RequestParam(value="appRequestId", required = true) String appRequestId,
+//            @RequestParam(value="toProviderIds", required = true) String toProviderIds)
+//    {
+//        RTVMember member = RequestUtils.getMember(request);
+//        StringTokenizer tokenizer = new StringTokenizer(toProviderIds, ",");
+//        List<String> toProviderIdsList = new ArrayList<String>();
+//        while(tokenizer.hasMoreTokens())
+//        {
+//            toProviderIdsList.add(tokenizer.nextToken());
+//        }
+//
+//        inviteFriendsService.insertInvitedFriendsRequest(member.getMemberID(), appRequestId, toProviderIdsList);
+//    }
+
+    @RequestMapping(value = "/login",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody TUser getUser(@RequestParam("login") String login, @RequestParam("password") String password) {
+        return userService.getUserByLoginPassword(login,password);
     }
 
-    @RequestMapping("/user/{login}")
-    public User getUser(@PathVariable String login) {
-        return userService.getUserByLogin(login);
+    @RequestMapping(value = "/id/{id}", produces = "application/json", method = {RequestMethod.GET, RequestMethod.PUT})
+    public TUser getUser(@PathVariable Long id) {
+        return userService.getUserById(id);
     }
 
-    @RequestMapping("/users")
-    public List<User> getUsers() {
+    @RequestMapping("/all")
+    public List<TUser> getUsers() {
         return userService.getUsers();
+    }
+
+    @RequestMapping(value = "/is/{login}", produces = "application/json", method = {RequestMethod.GET, RequestMethod.PUT})
+    public Boolean isUser(@PathVariable String login) {
+        return userService.isUser(login);
     }
 
 }
