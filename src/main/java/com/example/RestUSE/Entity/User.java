@@ -3,8 +3,8 @@ package com.example.RestUSE.Entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "\"tUser\"")
-public class TUser {
+@Table(name = "\"user\"")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"IDUser\"", nullable = false)

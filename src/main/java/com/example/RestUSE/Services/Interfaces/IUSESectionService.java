@@ -1,7 +1,7 @@
 package com.example.RestUSE.Services.Interfaces;
 
-import com.example.RestUSE.Entity.TSection;
+import com.example.RestUSE.Entity.Section;
 
 public interface IUSESectionService {
-    TSection getSectionById(Long idSection);
+    Section getSectionById(Long idSection);
 }

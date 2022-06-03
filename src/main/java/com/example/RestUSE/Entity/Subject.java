@@ -3,8 +3,8 @@ package com.example.RestUSE.Entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "\"tSubject\"")
-public class TSubject {
+@Table(name = "\"subject\"")
+public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "\"IDSubject\"", nullable = false)
@@ -12,7 +12,7 @@ public class TSubject {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "\"IDSection\"", nullable = false)
-    private TSection iDSection;
+    private Section iDSection;
 
     @Column(name = "\"NameSubject\"", nullable = false)
     private String nameSubject;
@@ -25,11 +25,11 @@ public class TSubject {
         this.nameSubject = nameSubject;
     }
 
-    public TSection getIDSection() {
+    public Section getIDSection() {
         return iDSection;
     }
 
-    public void setIDSection(TSection iDSection) {
+    public void setIDSection(Section iDSection) {
         this.iDSection = iDSection;
     }
 

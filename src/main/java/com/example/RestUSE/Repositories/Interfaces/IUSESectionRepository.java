@@ -1,7 +1,7 @@
 package com.example.RestUSE.Repositories.Interfaces;
 
-import com.example.RestUSE.Entity.TSection;
+import com.example.RestUSE.Entity.Section;
 
 public interface IUSESectionRepository {
-    TSection getSectionByID(Long idSection);
+    Section getSectionByID(Long idSection);
 }

@@ -1,5 +1,5 @@
 package com.example.RestUSE.Repositories;
-import com.example.RestUSE.Entity.TUser;
+import com.example.RestUSE.Entity.User;
 import com.example.RestUSE.Repositories.Interfaces.IUSEUserRepository;
 
 
@@ -25,30 +25,30 @@ public class DBUserRepository implements IUSEUserRepository {
     private CriteriaBuilder criteriaBuilder;
 
     @Override
-    public TUser getUserByLogin(String login) {
-        Optional<TUser> result = Optional.empty();
-        List<TUser> list;
+    public User getUserByLogin(String login) {
+        Optional<User> result = Optional.empty();
+        List<User> list;
         session = sessionFactory.openSession();
         criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<TUser> criteria = criteriaBuilder.createQuery(TUser.class);
-        Root<TUser> rootUser = criteria.from(TUser.class);
+        CriteriaQuery<User> criteria = criteriaBuilder.createQuery(User.class);
+        Root<User> rootUser = criteria.from(User.class);
         criteria.select(rootUser).where(criteriaBuilder.equal(rootUser.get("login"),login));
-        Query<TUser> query = session.createQuery(criteria);
+        Query<User> query = session.createQuery(criteria);
         list = query.getResultList();
         if (list.size()>0) {
             result = Optional.ofNullable(list.get(0));
         }
-        return result.orElseGet(TUser::new);
+        return result.orElseGet(User::new);
     }
 
     @Override
-    public TUser getUserById(Long id) {
+    public User getUserById(Long id) {
         session = sessionFactory.openSession();
         criteriaBuilder = session.getCriteriaBuilder();
-        TUser user = null;
+        User user = null;
         try {
             session = sessionFactory.openSession();
-            user = session.get(TUser.class,id);
+            user = session.get(User.class,id);
             Hibernate.initialize(user);
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,19 +61,19 @@ public class DBUserRepository implements IUSEUserRepository {
     }
 
     @Override
-    public TUser getUserByLoginPassword(String login, String password) {
-        Optional<TUser> result = Optional.empty();
+    public User getUserByLoginPassword(String login, String password) {
+        Optional<User> result = Optional.empty();
         try {
             session = sessionFactory.openSession();
             criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<TUser> criteria = criteriaBuilder.createQuery(TUser.class);
-            Root<TUser> rootUser = criteria.from(TUser.class);
-            List<TUser> list;
+            CriteriaQuery<User> criteria = criteriaBuilder.createQuery(User.class);
+            Root<User> rootUser = criteria.from(User.class);
+            List<User> list;
             Predicate[] predicates = new Predicate[2];
             predicates[0] = criteriaBuilder.equal(rootUser.get("login"),login);
             predicates[1] = criteriaBuilder.equal(rootUser.get("password"),password);
             criteria.select(rootUser).where(predicates);
-            Query<TUser> query = session.createQuery(criteria);
+            Query<User> query = session.createQuery(criteria);
             list = query.getResultList();
             if (list.size()>0) {
                 result = Optional.ofNullable(list.get(0));
@@ -85,18 +85,18 @@ public class DBUserRepository implements IUSEUserRepository {
             }
         }
 
-        return result.orElseGet(TUser::new);
+        return result.orElseGet(User::new);
     }
 
     @Override
-    public List<TUser> getUsers() {
-        Query<TUser> query;
-        Optional<List<TUser>> result;
+    public List<User> getUsers() {
+        Query<User> query;
+        Optional<List<User>> result;
         try {
             session = sessionFactory.openSession();
             CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<TUser> criteria = builder.createQuery(TUser.class);
-            Root<TUser> rootUser = criteria.from(TUser.class);
+            CriteriaQuery<User> criteria = builder.createQuery(User.class);
+            Root<User> rootUser = criteria.from(User.class);
             criteria.select(rootUser);
             query = session.createQuery(criteria);
             result = Optional.ofNullable(query.getResultList());

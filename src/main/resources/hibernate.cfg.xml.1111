@@ -24,9 +24,9 @@
         <!--<property name="hibernate.hbm2ddl.auto">create-drop</property> -->
 
         <!-- Annotated entity classes -->
-        <mapping class="com.example.RestUSE.Entity.TSection" />
-        <mapping class="com.example.RestUSE.Entity.TSubject" />
-        <mapping class="com.example.RestUSE.Entity.TUser" />
+        <mapping class="com.example.RestUSE.Entity.Section" />
+        <mapping class="com.example.RestUSE.Entity.Subject" />
+        <mapping class="com.example.RestUSE.Entity.User" />
 
 
     </session-factory>

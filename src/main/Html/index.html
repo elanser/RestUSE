@@ -8,7 +8,10 @@
 <script lang="javascript">
     $( document ).ready(function() {
         $("#test").click(function () {
-            test("adminadmin","adm1234adm");
+            test("adminadmin","adm123adm");
+        });
+        $("#all_users").click(function () {
+            all();
         });
     });
     function test(login, password) {
@@ -20,18 +23,32 @@
             type: "POST",
             dataType: "json",
             contentType: "application/json",
-            url: "http://localhost:8080/users/login?" + $.param(usrData),
+            url: "http://localhost:8080/users/loginPass?" + $.param(usrData),
+            success: function (data) {
+
+            },
+            error: function (xhr, str){}
+        });
+    }
+
+    function all() {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            url: "http://localhost:8080/users/all",
             success: function (data) {
 
             },
             error: function (xhr, str) {
-                // alert("Ошибка!");
+
             }
         });
     }
 </script>
 <body>
-    <button id="test" type="button" class="test"> test </button>
+    <button id="test" type="button" class="test"> login password </button> </br>
+    <button id="all_users" type="button" class="test"> all users </button>
 
 </body>
 </html>
