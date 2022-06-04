@@ -19,8 +19,7 @@ public class RestUseApplication {
 	public static SessionFactory sessionFactory;
 	public static void main(String[] args) {
 		context = SpringApplication.run(RestUseApplication.class, args);
-		sessionFactory = new Configuration().configure()
-				.buildSessionFactory();
+		sessionFactory = new Configuration().configure().buildSessionFactory();
 	}
 	// CORS!!!!!
 	@Bean

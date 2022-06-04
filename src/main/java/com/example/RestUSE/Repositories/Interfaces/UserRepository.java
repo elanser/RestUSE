@@ -17,10 +17,18 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     @Transactional(readOnly = true)
     @Query("SELECT u FROM User u WHERE u.login = :login and u.password = :password")
-    Optional<User> queryByLoginPassword(String login, String password);
+    Optional<User> queryUserByLoginPassword(String login, String password);
 
     @Transactional(readOnly = true)
     @Query("SELECT u FROM User u")
     Optional<List<User>> getUsersJPA();
+
+    @Transactional(readOnly = true)
+    @Query("SELECT u FROM User u WHERE u.id = :iD")
+    Optional<User> getUserById(long iD);
+
+    @Transactional(readOnly = true)
+    @Query("SELECT u FROM User u WHERE u.login = :login")
+    Optional<User> isUser(String login);
 
 }

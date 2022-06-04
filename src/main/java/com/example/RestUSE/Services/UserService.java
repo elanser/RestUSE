@@ -1,65 +1,69 @@
 package com.example.RestUSE.Services;
 
 import com.example.RestUSE.Entity.User;
-import com.example.RestUSE.Repositories.Interfaces.IUSEUserRepository;
 import com.example.RestUSE.Repositories.Interfaces.UserRepository;
 import com.example.RestUSE.Services.Interfaces.IUSEUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 @Service
 public class UserService implements IUSEUserService {
-    IUSEUserRepository userRepository;
     UserRepository userRepositoryJPA;
 
-    public UserService(IUSEUserRepository userRepository, UserRepository userRepositoryJPA) {
-        this.userRepository = userRepository;
+
+    public UserService(UserRepository userRepositoryJPA) {
         this.userRepositoryJPA = userRepositoryJPA;
     }
 
 
     @Override
-    public User getUserByLogin(String login) {
-        return userRepository.getUserByLogin(login);
+    public User getUserById(Long iD) {
+        return userRepositoryJPA.getUserById(iD).orElse(new User());
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.getUserById(id);
-    }
-
-    @Override
-    public List<User> getUsers() {
-        return userRepository.getUsers();
-    }
-
-    @Override
-    public List<User> getUsersJPA() {
-        return userRepositoryJPA.getUsersJPA().orElse(new ArrayList<>());
+    public  CompletableFuture<List<User>> getUsersJPA() {
+        Supplier<List<User>> supplierUsers = () -> userRepositoryJPA.getUsersJPA().orElse(new ArrayList<>());
+        CompletableFuture<List<User>> cfUsers = CompletableFuture.supplyAsync(supplierUsers);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return cfUsers;
     }
 
     @Override
     public Boolean isUser(String login) {
-        return userRepository.isUser(login);
+        return userRepositoryJPA.isUser(login).isPresent();
     }
 
     @Override
     public User getUserByLoginPassword(String login, String password) {
-        return userRepository.getUserByLoginPassword(login,password);
+        return null;
     }
-    @Override
-    public Optional<User> getUserByLoginPasswordJPA(String login, String password) {
-        return userRepositoryJPA.findByLoginAndPassword(login,password);
-    }
+
 
     @Override
-    public Optional<User> getUserByLoginPasswordJPAQuery(String login, String password) {
-        return userRepositoryJPA.queryByLoginPassword(login,password);
+    public User getUserByLoginPasswordJPA(String login, String password) {
+        return userRepositoryJPA.findByLoginAndPassword(login,password).orElse(new User());
     }
 
-    //queryByLoginPassword
-
+    @Override
+    public CompletableFuture<User> getUserByLoginPasswordJPAQuery(String login, String password) {
+        Supplier<User> supplierUser =
+                () -> userRepositoryJPA.queryUserByLoginPassword(login,password).orElse(new User());
+        CompletableFuture<User> cfUser =
+                CompletableFuture.supplyAsync(supplierUser);
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return cfUser;
+    }
 }

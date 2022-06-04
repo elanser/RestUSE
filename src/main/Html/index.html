@@ -8,7 +8,7 @@
 <script lang="javascript">
     $( document ).ready(function() {
         $("#test").click(function () {
-            test("adminadmin","adm123adm");
+            test($("#login").val(),$("#password").val());
         });
         $("#all_users").click(function () {
             all();
@@ -47,7 +47,10 @@
     }
 </script>
 <body>
-    <button id="test" type="button" class="test"> login password </button> </br>
+    <label for="login">Логин:</label>
+    <label for="password">Пароль:</label>
+    <input type="text" id="login"/>&nbsp;<input type="text" id="password"/>
+    <button id="test" type="button" class="test"> login password </button> <br>
     <button id="all_users" type="button" class="test"> all users </button>
 
 </body>

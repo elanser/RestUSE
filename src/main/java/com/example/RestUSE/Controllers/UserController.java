@@ -3,9 +3,12 @@ package com.example.RestUSE.Controllers;
 import com.example.RestUSE.Entity.User;
 import com.example.RestUSE.Services.Interfaces.IUSEUserService;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @CrossOrigin
@@ -18,15 +21,16 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody User getUser(@RequestParam("login") String login, @RequestParam("password") String password) {
-        return userService.getUserByLoginPassword(login,password);
-    }
+//    @RequestMapping(value = "/login",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public @ResponseBody User getUser(@RequestParam("login") String login, @RequestParam("password") String password) {
+//        return userService.getUserByLoginPassword(login,password);
+//    }
 
     @RequestMapping(value = "/loginPass",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    User getUserJPA(@RequestParam("login") String login, @RequestParam("password") String password) {
-        return userService.getUserByLoginPasswordJPAQuery(login,password).orElse(new User());
+    CompletableFuture<User> getUserJPA(@RequestParam("login") String login,
+                    @RequestParam("password") String password) throws ExecutionException, InterruptedException {
+        return userService.getUserByLoginPasswordJPAQuery(login,password);
     }
 
     @RequestMapping(value = "/id/{id}", produces = "application/json", method = {RequestMethod.GET, RequestMethod.PUT})
@@ -34,8 +38,9 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+
     @RequestMapping("/all")
-    public List<User> getUsers() {
+    public CompletableFuture<List<User>> getUsers() {
         return userService.getUsersJPA();
     }
 
