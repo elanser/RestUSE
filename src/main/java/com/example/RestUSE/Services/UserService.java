@@ -4,7 +4,6 @@ import com.example.RestUSE.Entity.User;
 import com.example.RestUSE.Repositories.Interfaces.UserRepository;
 import com.example.RestUSE.Services.Interfaces.IUSEUserService;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -14,11 +13,9 @@ import java.util.function.Supplier;
 public class UserService implements IUSEUserService {
     UserRepository userRepositoryJPA;
 
-
     public UserService(UserRepository userRepositoryJPA) {
         this.userRepositoryJPA = userRepositoryJPA;
     }
-
 
     @Override
     public User getUserById(Long iD) {
@@ -27,13 +24,16 @@ public class UserService implements IUSEUserService {
 
     @Override
     public  CompletableFuture<List<User>> getUsersJPA() {
-        Supplier<List<User>> supplierUsers = () -> userRepositoryJPA.getUsersJPA().orElse(new ArrayList<>());
+        Supplier<List<User>> supplierUsers =
+                () ->  {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return userRepositoryJPA.getUsersJPA().orElse(new ArrayList<>());
+                };
         CompletableFuture<List<User>> cfUsers = CompletableFuture.supplyAsync(supplierUsers);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         return cfUsers;
     }
 
@@ -47,7 +47,6 @@ public class UserService implements IUSEUserService {
         return null;
     }
 
-
     @Override
     public User getUserByLoginPasswordJPA(String login, String password) {
         return userRepositoryJPA.findByLoginAndPassword(login,password).orElse(new User());
@@ -56,14 +55,17 @@ public class UserService implements IUSEUserService {
     @Override
     public CompletableFuture<User> getUserByLoginPasswordJPAQuery(String login, String password) {
         Supplier<User> supplierUser =
-                () -> userRepositoryJPA.queryUserByLoginPassword(login,password).orElse(new User());
+                () -> {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return userRepositoryJPA.queryUserByLoginPassword(login,password).orElse(new User());
+        };
         CompletableFuture<User> cfUser =
                 CompletableFuture.supplyAsync(supplierUser);
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+
         return cfUser;
     }
 }

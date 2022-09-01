@@ -27,6 +27,7 @@
         <mapping class="com.example.RestUSE.Entity.Section" />
         <mapping class="com.example.RestUSE.Entity.Subject" />
         <mapping class="com.example.RestUSE.Entity.User" />
+        <mapping class="com.example.RestUSE.Entity.Profile" />
 
 
     </session-factory>

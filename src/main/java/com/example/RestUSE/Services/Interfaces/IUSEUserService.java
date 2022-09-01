@@ -3,9 +3,8 @@ package com.example.RestUSE.Services.Interfaces;
 import com.example.RestUSE.Entity.User;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
+
 
 public interface IUSEUserService {
     User getUserById(Long iD);

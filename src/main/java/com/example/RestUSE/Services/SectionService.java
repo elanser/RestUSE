@@ -1,23 +1,35 @@
 package com.example.RestUSE.Services;
 
 import com.example.RestUSE.Entity.Section;
-import com.example.RestUSE.Repositories.Interfaces.IUSESectionRepository;
-import com.example.RestUSE.Services.Interfaces.IUSESectionService;
+
+import com.example.RestUSE.Repositories.Interfaces.SectionRepository;
+import com.example.RestUSE.Services.Interfaces.ISectionService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-@Service
-public class SectionService implements IUSESectionService {
-    IUSESectionRepository sectionRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
-    public SectionService(IUSESectionRepository sectionRepository) {
+@Service
+public class SectionService implements ISectionService {
+    SectionRepository sectionRepository;
+    public SectionService(SectionRepository sectionRepository) {
         this.sectionRepository = sectionRepository;
     }
 
     @Override
-    public Section getSectionById(Long idSection) {
-        Section section = sectionRepository.getSectionByID(idSection);
-        Optional<Section> optional = Optional.ofNullable(section);
-        return optional.orElseGet(Section::new);
+    public CompletableFuture<List<Section>> getSectionList() {
+        Supplier<List<Section>> supplierSections =
+                () -> {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return sectionRepository.getSectionList().orElse(new ArrayList<>());
+            };
+        CompletableFuture<List<Section>> cfSections = CompletableFuture.supplyAsync(supplierSections);
+        return cfSections;
     }
 }

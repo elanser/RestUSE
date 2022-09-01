@@ -15,6 +15,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
     // And... Or... Contains... - Можно
     Optional<User> findByLoginAndPassword(String login, String password);
 
+    // https://sysout.ru/annotatsiya-query/
+
     @Transactional(readOnly = true)
     @Query("SELECT u FROM User u WHERE u.login = :login and u.password = :password")
     Optional<User> queryUserByLoginPassword(String login, String password);

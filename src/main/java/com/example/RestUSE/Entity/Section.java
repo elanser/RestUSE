@@ -2,34 +2,26 @@ package com.example.RestUSE.Entity;
 
 import javax.persistence.*;
 
-// ДЗ Создать двунаправленную
-// List<Subject> subjects <- здесь foreign key
-// применить "mapped by"
-
-/*
-@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredients;
- */
 @Entity
-@Table(name = "\"section\"")
+@Table(name = "section")
 public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "\"IDSection\"", nullable = false)
+    @Column(name = "id_section", nullable = false)
     private Long id;
 
-    @Column(name = "\"NameSection\"", nullable = false)
+    @Column(name = "name_section", nullable = false)
     private String nameSection;
 
-    @Column(name = "\"Parent\"", nullable = false)
+    @Column(name = "parent")
     private Long parent;
 
-    public Long getParent() {
-        return parent;
+    public Long getId() {
+        return id;
     }
 
-    public void setParent(Long parent) {
-        this.parent = parent;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNameSection() {
@@ -40,11 +32,12 @@ public class Section {
         this.nameSection = nameSection;
     }
 
-    public Long getId() {
-        return id;
+    public Long getParent() {
+        return parent;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setParent(Long parent) {
+        this.parent = parent;
     }
+
 }
