@@ -3,6 +3,7 @@ package com.example.RestUSE;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -13,6 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableJpaRepositories
 @EntityScan("com.example.RestUSE.Entity")
+// выключаем авто spring-boot-security
+//@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 @SpringBootApplication
 public class RestUseApplication {
 	public static ApplicationContext context;

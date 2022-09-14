@@ -2,7 +2,7 @@ package com.example.RestUSE.Services;
 
 import com.example.RestUSE.Entity.User;
 import com.example.RestUSE.Repositories.Interfaces.UserRepository;
-import com.example.RestUSE.Services.Interfaces.IUSEUserService;
+import com.example.RestUSE.Services.Interfaces.IUserService;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 @Service
-public class UserService implements IUSEUserService {
+public class UserService implements IUserService {
     UserRepository userRepositoryJPA;
 
     public UserService(UserRepository userRepositoryJPA) {
@@ -25,14 +25,7 @@ public class UserService implements IUSEUserService {
     @Override
     public  CompletableFuture<List<User>> getUsersJPA() {
         Supplier<List<User>> supplierUsers =
-                () ->  {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    return userRepositoryJPA.getUsersJPA().orElse(new ArrayList<>());
-                };
+                () -> userRepositoryJPA.getUsersJPA().orElse(new ArrayList<>());
         CompletableFuture<List<User>> cfUsers = CompletableFuture.supplyAsync(supplierUsers);
         return cfUsers;
     }
@@ -65,7 +58,7 @@ public class UserService implements IUSEUserService {
         };
         CompletableFuture<User> cfUser =
                 CompletableFuture.supplyAsync(supplierUser);
-
         return cfUser;
     }
+
 }

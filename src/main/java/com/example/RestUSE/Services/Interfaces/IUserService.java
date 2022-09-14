@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
-public interface IUSEUserService {
+public interface IUserService {
     User getUserById(Long iD);
     CompletableFuture<List<User>> getUsersJPA();
     Boolean isUser(String login);
