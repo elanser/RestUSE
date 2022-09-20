@@ -1,5 +1,6 @@
 package com.example.RestUSE.Controllers;
 
+import com.example.RestUSE.Dto.UserDto;
 import com.example.RestUSE.Entity.User;
 import com.example.RestUSE.Services.Interfaces.IUserService;
 import com.example.RestUSE.auth.Authenticator;
@@ -24,20 +25,23 @@ public class UserController {
 
     @RequestMapping(value = "/loginPass", produces = "application/json")
     public @ResponseBody
-    CompletableFuture<User> getUserJPA(@RequestParam("login") String login,
-                    @RequestParam("password") String password) throws ExecutionException, InterruptedException {
+    UserDto getUserJPA(@RequestParam("login") String login,
+                       @RequestParam("password") String password) throws ExecutionException, InterruptedException {
         return userService.getUserByLoginPasswordJPAQuery(login,password);
     }
 
     @RequestMapping(value = "/id/{id}", produces = "application/json", method = {RequestMethod.GET, RequestMethod.PUT})
-    public User getUser(@PathVariable Long id) {
+    public UserDto getUser(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
 
     @RequestMapping(value ="/all", produces = "application/json")
-    public CompletableFuture<List<User>> getUsers() {
-        return userService.getUsersJPA();
+    public CompletableFuture<List<UserDto>> getUsers() {
+        Supplier<List<UserDto>> supplierUsers = () -> userService.getUsersJPA();
+
+        CompletableFuture<List<UserDto>> cfUserDto = CompletableFuture.supplyAsync(supplierUsers);
+        return cfUserDto;
     }
 
     @RequestMapping(value = "/is/{login}", produces = "application/json", method = {RequestMethod.GET, RequestMethod.PUT})

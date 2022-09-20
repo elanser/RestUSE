@@ -1,9 +1,13 @@
 package com.example.RestUSE.Entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "role")
+@Data
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +16,9 @@ public class Role {
 
     @Column(name = "namerole", nullable = false)
     private String namerole;
+
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private List<User> users;
 
     public Long getId() {
         return id;

@@ -55,41 +55,41 @@ public final class Authenticator {
     }
 
     public String loginUser(String login, String password) throws LoginException {
-        User user = null;
-        String authToken="";
-        Timestamp lastActivity  = getTimestamp();
-
-        if (usersMap.containsKey(login)) {
-            user = usersMap.get(login);
-        }
-        else {
-            // ищем в репозитории
-            user = userService.getUserByLoginPasswordJPA(login, password);
-        }
-        if (user.getLogin() != null) {
-            if (!usersMap.containsKey(login)) {
-                usersMap.put(login,user);
-            }
-            if (login.equals(user.getLogin())) {
-                if (!loginToken.containsKey(login)) {
-                    authToken = UUID.randomUUID().toString();
-                    loginToken.put(login,authToken);
-                    tokenLogin.put(authToken,login);
-                }
-                else {
-                    authToken = loginToken.get(login);
-                }
-                if (tokenLogin.containsKey(authToken)) {
-                    if (!lastActivityToken.containsKey(authToken)) {
-                        lastActivityToken.put(authToken,lastActivity);
-                    }
-                    else {
-                        lastActivityToken.replace(authToken,lastActivity);
-                    }
-                    return authToken;
-                }
-            }
-        }
+//        User user = null;
+//        String authToken="";
+//        Timestamp lastActivity  = getTimestamp();
+//
+//        if (usersMap.containsKey(login)) {
+//            user = usersMap.get(login);
+//        }
+//        else {
+//            // ищем в репозитории
+//            user = userService.getUserByLoginPasswordJPA(login, password);
+//        }
+//        if (user.getLogin() != null) {
+//            if (!usersMap.containsKey(login)) {
+//                usersMap.put(login,user);
+//            }
+//            if (login.equals(user.getLogin())) {
+//                if (!loginToken.containsKey(login)) {
+//                    authToken = UUID.randomUUID().toString();
+//                    loginToken.put(login,authToken);
+//                    tokenLogin.put(authToken,login);
+//                }
+//                else {
+//                    authToken = loginToken.get(login);
+//                }
+//                if (tokenLogin.containsKey(authToken)) {
+//                    if (!lastActivityToken.containsKey(authToken)) {
+//                        lastActivityToken.put(authToken,lastActivity);
+//                    }
+//                    else {
+//                        lastActivityToken.replace(authToken,lastActivity);
+//                    }
+//                    return authToken;
+//                }
+//            }
+//        }
         throw new LoginException("Login failed!");
     }
 
