@@ -2,6 +2,8 @@ package com.example.RestUSE.security;
 
 import com.example.RestUSE.Entity.User;
 import com.example.RestUSE.Services.UserService;
+import com.example.RestUSE.security.jwt.JwtUser;
+import com.example.RestUSE.security.jwt.JwtUserFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +27,8 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (user==null) {
             throw new UsernameNotFoundException("User "+ username + " not found!");
         }
-        return null;
+        JwtUser jwtUser = JwtUserFactory.create(user);
+        log.info("IN - loadUserByUsername, user: {} loaded",username);
+        return jwtUser;
     }
 }
